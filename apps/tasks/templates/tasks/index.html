@@ -103,5 +103,16 @@
     </div>
 
     <script src="{% static 'js/script.js' %}"></script>
+
+    <!-- 🔧 Исправление: запрет прошедших дат -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deadlineInput = document.getElementById('taskDeadlineInput');
+            if (deadlineInput) {
+                const today = new Date().toISOString().split('T')[0];
+                deadlineInput.min = today;
+            }
+        });
+    </script>
 </body>
 </html>
