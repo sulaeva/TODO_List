@@ -19,6 +19,8 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.generic import RedirectView
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,6 +37,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', RedirectView.as_view(url='/tasks/board/'), name='home'),
 
     # API endpoints
     path('api/auth/', include('apps.users.urls')),
