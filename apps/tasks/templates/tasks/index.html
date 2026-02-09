@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Auth Modal (показывается при загрузке) -->
+    <div class="modal" id="authModal" style="display: block;">
+        <div class="auth-modal-content">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Войти</button>
+                <button class="tab-btn" onclick="switchTab('register')">Регистрация</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginTab" class="tab-content active">
+                <h2>Вход в систему</h2>
+                <form id="loginForm">
+                    <input type="text" id="loginUsername" placeholder="Username" required>
+                    <input type="password" id="loginPassword" placeholder="Пароль" required>
+                    <div id="loginError" class="error-message"></div>
+                    <button type="submit" class="btn-primary">Войти</button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerTab" class="tab-content">
+                <h2>Регистрация</h2>
+                <form id="registerForm">
+                    <input type="text" id="registerUsername" placeholder="Username" required>
+                    <input type="email" id="registerEmail" placeholder="Email" required>
+                    <input type="password" id="registerPassword" placeholder="Пароль (минимум 8 символов)" required minlength="8">
+                    <input type="password" id="registerPasswordConfirm" placeholder="Подтвердите пароль" required>
+                    <div id="registerError" class="error-message"></div>
+                    <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (скрыт до авторизации) -->
+    <div id="app" style="display: none;">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <h1>📝 Task Manager</h1>
+                <div class="header-right">
+                    <span id="currentUser">👤 Пользователь</span>
+                    <button class="btn-logout" id="logoutBtn">Выйти</button>
+                </div>
+            </header>
+
+            <!-- Task Modal -->
+            <div class="modal" id="taskModal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="taskTitle">-</h2>
+                    <div class="task-details">
+                        <p><strong>Описание:</strong></p>
+                        <p id="taskDescription">-</p>
+                        <p><strong>Статус:</strong> <span id="taskStatus" class="status-badge">-</span></p>
+                        <p><strong>Дедлайн:</strong> <span id="taskDeadline">-</span></p>
+                        <p><strong>Создано:</strong> <span id="taskCreated">-</span></p>
+                        <p><strong>Обновлено:</strong> <span id="taskUpdated">-</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Task Form -->
+            <div class="add-task">
+                <input type="text" id="taskTitleInput" placeholder="Название задачи" class="input-field">
+                <textarea id="taskDescriptionInput" placeholder="Описание задачи (минимум 10 символов)" class="input-field"></textarea>
+                <input type="date" id="taskDeadlineInput" class="input-field">
+                <button class="btn-add" id="addTaskBtn">➕ Добавить задачу</button>
+            </div>
+
+            <!-- Kanban Board -->
+            <div class="kanban-board">
+                <!-- To Do Column -->
+                <div class="column" id="todo-column">
+                    <h2 class="column-title todo">To Do</h2>
+                    <div class="task-list" id="todo-list"></div>
+                </div>
+
+                <!-- In Progress Column -->
+                <div class="column" id="inprogress-column">
+                    <h2 class="column-title inprogress">In Progress</h2>
+                    <div class="task-list" id="inprogress-list"></div>
+                </div>
+
+                <!-- Done Column -->
+                <div class="column" id="done-column">
+                    <h2 class="column-title done">Done</h2>
+                    <div class="task-list" id="done-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
