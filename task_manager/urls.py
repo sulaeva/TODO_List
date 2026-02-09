@@ -16,11 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.views.generic import RedirectView
 
+# Импортируем ВСЕ нужные view из users
+from apps.users.views import (
+    RegisterView, LoginView, UserDetailView,
+    HTMLRegisterView, HTMLLoginView
+)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -38,16 +43,24 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # Главная → доска задач
     path('', RedirectView.as_view(url='/tasks/board/'), name='home'),
 
-    # API endpoints
-    path('api/auth/', include('apps.users.urls')),
+    # HTML-страницы (работают в браузере)
+    path('register/', HTMLRegisterView.as_view(), name='register'),
+    path('login/', HTMLLoginView.as_view(), name='login'),
+
+    # API-эндпоинты
+    path('api/auth/register/', RegisterView.as_view(), name='api-register'),
+    path('api/auth/login/', LoginView.as_view(), name='api-login'),
+    path('api/auth/me/', UserDetailView.as_view(), name='user-detail'),
+
+    # Остальное
     path('api/tasks/', include('apps.tasks.urls')),
     path('api/stats/', include('apps.stats.urls')),
+    path('tasks/', include('apps.tasks.urls')),
 
-    path('tasks/', include('apps.tasks.urls')),  # Для страницы /tasks/board/
-
-    # Documentation
+    # Документация
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
