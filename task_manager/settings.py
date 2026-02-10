@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'apps.users.apps.UsersConfig',
     'apps.tasks.apps.TasksConfig',
     'apps.stats.apps.StatsConfig',
+    'corsheaders',
 ]
 
 # ─────────── Middleware ───────────
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -151,3 +153,10 @@ SWAGGER_SETTINGS = {
 # ─────────── Проверка загрузки .env ───────────
 print("SECRET_KEY loaded:", bool(SECRET_KEY))
 print("DEBUG mode:", DEBUG)
+
+
+# settings.py
+CORS_ALLOWED_ORIGINS = [
+    "https://todo-list-12-w6jc.onrender.com",
+]
+CORS_ALLOW_CREDENTIALS = True

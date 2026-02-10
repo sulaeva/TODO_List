@@ -8,6 +8,8 @@ from .models import Task
 from .serializers import TaskSerializer
 from .filters import TaskFilter
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+
 
 
 
@@ -58,3 +60,13 @@ def task_board(request):
 @login_required
 def board_view(request):
     return render(request, 'tasks/board.html')
+
+
+class LoginView(TemplateView):
+    template_name = 'login.html'
+
+class RegisterView(TemplateView):
+    template_name = 'register.html'
+
+class BoardView(TemplateView):
+    template_name = 'tasks/index.html'
