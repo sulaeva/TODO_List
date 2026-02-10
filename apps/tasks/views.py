@@ -7,6 +7,8 @@ from django.utils import timezone #сама болавила
 from .models import Task
 from .serializers import TaskSerializer
 from .filters import TaskFilter
+from django.contrib.auth.decorators import login_required
+
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -51,3 +53,8 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 def task_board(request):
     return render(request, 'tasks/index.html')
+
+
+@login_required
+def board_view(request):
+    return render(request, 'tasks/board.html')
